@@ -10,13 +10,13 @@ public class NetworkManagementService {
     }
 
     public void performMaintenance(String ip, ArrayList<String> commands){
-        router.connect(ip);
         if (!commands.isEmpty()) {
+            router.connect(ip);
             for (String command : commands) {
                 router.sendCommand(command);
             }
+            router.disconnect();
         }
-        router.disconnect();
     }
 
 }
