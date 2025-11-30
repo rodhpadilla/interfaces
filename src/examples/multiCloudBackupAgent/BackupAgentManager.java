@@ -7,7 +7,18 @@ public class BackupAgentManager {
         this.backupAgent = backupAgent;
     }
 
-    public void performBackup(ConfigurationFile configurationFile) {
-        backupAgent.save(configurationFile);
+    public boolean performBackup(ConfigurationFile configurationFile) {
+        boolean backupResult = backupAgent.save(configurationFile);
+        int counter = 3;
+        while (!backupResult){
+            System.out.println("Backup failed. Retrying... (" + counter + " attempts left)");
+            backupResult = backupAgent.save(configurationFile);
+            counter -=1;
+            if (counter == 0) {
+                System.out.println("Giving up after multiple attempts.");
+                break;
+            }
+        }
+        return backupResult;
     }
 }
